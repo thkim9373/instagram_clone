@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/screens/feed_page.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -6,24 +7,28 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget> [
-    Container(color: Colors.primaries[0],),
-    Container(color: Colors.primaries[1],),
-    Container(color: Colors.primaries[2],),
-    Container(color: Colors.primaries[3],),
-    Container(color: Colors.primaries[4],),
+  static List<Widget> _widgetOptions = <Widget>[
+    FeedPage(),
+    Container(
+      color: Colors.primaries[1],
+    ),
+    Container(
+      color: Colors.primaries[2],
+    ),
+    Container(
+      color: Colors.primaries[3],
+    ),
+    Container(
+      color: Colors.primaries[4],
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("20억짜리 앱"),
-      ),
-      body: IndexedStack (
+      body: IndexedStack(
         index: _selectedIndex,
         children: _widgetOptions,
       ),
@@ -33,7 +38,7 @@ class _MainPageState extends State<MainPage> {
         unselectedItemColor: Colors.grey[900],
         selectedItemColor: Colors.black,
         type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem> [
+        items: <BottomNavigationBarItem>[
           _buildBottomNavigationBarItem(activeIconPath: "assets/home_selected.png", iconPath: "assets/home.png"),
           _buildBottomNavigationBarItem(activeIconPath: "assets/search_selected.png", iconPath: "assets/search.png"),
           _buildBottomNavigationBarItem(iconPath: "assets/add.png"),
@@ -48,10 +53,9 @@ class _MainPageState extends State<MainPage> {
 
   BottomNavigationBarItem _buildBottomNavigationBarItem({String activeIconPath, String iconPath}) {
     return BottomNavigationBarItem(
-      activeIcon: activeIconPath == null ? null : ImageIcon(AssetImage(activeIconPath)),
-      icon: ImageIcon(AssetImage(iconPath)),
-      title: Text("")
-    );
+        activeIcon: activeIconPath == null ? null : ImageIcon(AssetImage(activeIconPath)),
+        icon: ImageIcon(AssetImage(iconPath)),
+        title: Text(""));
   }
 
   void _onItemTapped(int index) {

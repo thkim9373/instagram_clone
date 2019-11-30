@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/sizes.dart';
 import 'package:instagram_clone/utils/profile_image_path.dart';
+import 'package:instagram_clone/widgets/comment.dart';
 
 class FeedPage extends StatelessWidget {
   @override
@@ -52,35 +53,24 @@ class FeedPage extends StatelessWidget {
         _postImage(index),
         _postActions(),
         _postLikes(),
-        _postCaption(context, index)
+        _postCaption(context, index),
       ],
     );
   }
 
   Padding _postCaption(BuildContext context, int index) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: common_gap),
-        child: RichText(
-          text: TextSpan(
-            style: DefaultTextStyle.of(context).style,
-            children: <TextSpan>[
-              TextSpan(
-                  text: 'userName $index',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
-              TextSpan(
-                text: " ",
-              ),
-              TextSpan(
-                  text: 'I am missing summer sooooooooooooooooooooooo much ~~~~~~~~~~!!',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                  ))
-            ],
-          ),
-        ),
-      );
+      padding: const EdgeInsets.symmetric(
+        horizontal: common_gap,
+        vertical: common_xs_gap,
+      ),
+      child: Comment(
+        dateTime: DateTime.now(),
+        showProfile: true,
+        userName: 'userName $index',
+        caption: 'I love summer soooooooooooooooooooooooooooo much ~~~~~~~~~~~~~~~~~~~~~~!!!',
+      ),
+    );
   }
 
   Padding _postLikes() {

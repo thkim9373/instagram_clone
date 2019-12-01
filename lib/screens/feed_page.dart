@@ -38,10 +38,11 @@ class FeedPage extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-          itemCount: 15,
-          itemBuilder: (BuildContext context, int index) {
-            return _postItem(index, context);
-          }),
+        itemCount: 15,
+        itemBuilder: (BuildContext context, int index) {
+          return _postItem(index, context);
+        },
+      ),
     );
   }
 
@@ -54,9 +55,18 @@ class FeedPage extends StatelessWidget {
         _postActions(),
         _postLikes(),
         _postCaption(context, index),
+        _allComment(),
       ],
     );
   }
+
+  FlatButton _allComment() => FlatButton(
+        onPressed: null,
+        child: Text(
+          "show all 18 comments",
+          style: TextStyle(color: Colors.grey[600]),
+        ),
+      );
 
   Padding _postCaption(BuildContext context, int index) {
     return Padding(
@@ -65,8 +75,6 @@ class FeedPage extends StatelessWidget {
         vertical: common_xs_gap,
       ),
       child: Comment(
-        dateTime: DateTime.now(),
-        showProfile: true,
         userName: 'userName $index',
         caption: 'I love summer soooooooooooooooooooooooooooo much ~~~~~~~~~~~~~~~~~~~~~~!!!',
       ),
@@ -112,7 +120,7 @@ class FeedPage extends StatelessWidget {
           icon: ImageIcon(
             AssetImage('assets/heart_selected.png'),
           ),
-          color: Colors.black87,
+          color: Colors.redAccent,
           onPressed: null,
         ),
       ],

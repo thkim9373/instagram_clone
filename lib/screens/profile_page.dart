@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/sizes.dart';
 import 'package:instagram_clone/utils/profile_image_path.dart';
@@ -7,9 +8,30 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
   bool _menuOpened = false;
   double menuWidth;
+  int duration = 400;
+  AlignmentGeometry tabAlign = Alignment.centerLeft;
+  bool _tabIconGridSelected = true;
+  double _gridMargin = 0;
+  double _myImageGridMargin = size.width;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: duration),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
       curve: Curves.easeInOut,
       color: Colors.grey[200],
       duration: Duration(
-        milliseconds: 300,
+        milliseconds: duration,
       ),
       transform: Matrix4.translationValues(_menuOpened ? size.width - menuWidth : size.width, 0, 0),
       child: SafeArea(
@@ -52,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
       curve: Curves.easeInOut,
       color: Colors.transparent,
       duration: Duration(
-        milliseconds: 300,
+        milliseconds: duration,
       ),
       transform: Matrix4.translationValues(_menuOpened ? -menuWidth : 0, 0, 0),
       child: SafeArea(
@@ -68,8 +90,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       _userName(),
                       _userBio(),
                       _editProfileButton(),
+                      _getTapIconButton,
+                      _getAnimatedSelectedBar,
                     ]),
-                  )
+                  ),
+                  _getImageGrid(context),
                 ],
               ),
             )
@@ -78,6 +103,38 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  SliverToBoxAdapter _getImageGrid(BuildContext context) => SliverToBoxAdapter(
+        child: Stack(
+          children: <Widget>[
+            AnimatedContainer(
+              curve: Curves.easeInOut,
+              duration: Duration(milliseconds: duration),
+              transform: Matrix4.translationValues(_gridMargin, 0, 0),
+              child: _imageGrid,
+            ),
+            AnimatedContainer(
+              curve: Curves.easeInOut,
+              duration: Duration(milliseconds: duration),
+              transform: Matrix4.translationValues(_myImageGridMargin, 0, 0),
+              child: _imageGrid,
+            ),
+          ],
+        ),
+      );
+
+  GridView get _imageGrid => GridView.count(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        childAspectRatio: 1,
+        children: List.generate(30, (index) => _gridImageItem(index)),
+      );
+
+  CachedNetworkImage _gridImageItem(int index) => CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl: "https://picsum.photos/id/$index/100/100",
+      );
 
   Padding _editProfileButton() {
     return Padding(
@@ -187,16 +244,73 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         IconButton(
+          icon: AnimatedIcon(
+            icon: AnimatedIcons.menu_close,
+            progress: _animationController,
+            semanticLabel: 'Show menu',
+          ),
           onPressed: () {
+            _menuOpened ? _animationController.reverse() : _animationController.forward();
             setState(
               () {
                 _menuOpened = !_menuOpened;
               },
             );
           },
-          icon: Icon(Icons.menu),
         )
       ],
     );
   }
+
+  Widget get _getTapIconButton => Row(
+        children: <Widget>[
+          Expanded(
+            child: IconButton(
+              icon: ImageIcon(AssetImage('assets/grid.png')),
+              color: _tabIconGridSelected ? Colors.black : Colors.black26,
+              onPressed: () {
+                _setTap(true);
+              },
+            ),
+          ),
+          Expanded(
+            child: IconButton(
+              icon: ImageIcon(AssetImage('assets/saved.png')),
+              color: _tabIconGridSelected ? Colors.black26 : Colors.black,
+              onPressed: () {
+                _setTap(false);
+              },
+            ),
+          ),
+        ],
+      );
+
+  void _setTap(bool tabLeft) {
+    setState(() {
+      if (tabLeft) {
+        this.tabAlign = Alignment.centerLeft;
+        this._gridMargin = 0;
+        this._myImageGridMargin = size.width;
+      } else {
+        this.tabAlign = Alignment.centerRight;
+        this._gridMargin = -size.width;
+        this._myImageGridMargin = 0;
+      }
+      this._tabIconGridSelected = tabLeft;
+    });
+  }
+
+  Widget get _getAnimatedSelectedBar => AnimatedContainer(
+        alignment: tabAlign,
+        duration: Duration(milliseconds: duration),
+        curve: Curves.easeInOut,
+        color: Colors.transparent,
+        height: 1,
+        width: size.width,
+        child: Container(
+          height: 1,
+          width: size.width / 2,
+          color: Colors.black87,
+        ),
+      );
 }

@@ -9,13 +9,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool _menuOpened = false;
-  Size _size;
   double menuWidth;
 
   @override
   Widget build(BuildContext context) {
-    _size = MediaQuery.of(context).size;
-    menuWidth = _size.width * 0.7;
+    menuWidth = size.width * 0.7;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -34,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
       duration: Duration(
         milliseconds: 300,
       ),
-      transform: Matrix4.translationValues(_menuOpened ? _size.width - menuWidth : _size.width, 0, 0),
+      transform: Matrix4.translationValues(_menuOpened ? size.width - menuWidth : size.width, 0, 0),
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,13 +63,58 @@ class _ProfilePageState extends State<ProfilePage> {
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverList(
-                    delegate: SliverChildListDelegate([_getProfileHeader()]),
+                    delegate: SliverChildListDelegate([
+                      _getProfileHeader(),
+                      _userName(),
+                      _userBio(),
+                      _editProfileButton(),
+                    ]),
                   )
                 ],
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Padding _editProfileButton() {
+    return Padding(
+      padding: const EdgeInsets.all(common_gap),
+      child: SizedBox(
+        height: 24,
+        child: OutlineButton(
+          onPressed: () {},
+          borderSide: BorderSide(
+            color: Colors.black45,
+          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          child: Text(
+            "Edit Profile",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding _userBio() {
+    return Padding(
+      padding: const EdgeInsets.only(left: common_gap),
+      child: Text(
+        "Bio from user. So say something.",
+        style: TextStyle(fontWeight: FontWeight.w400),
+      ),
+    );
+  }
+
+  Padding _userName() {
+    return Padding(
+      padding: const EdgeInsets.only(left: common_gap),
+      child: Text(
+        "User Real Name",
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -87,38 +130,46 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Expanded(
             child: Table(children: [
-              TableRow(
-                children: [
-                  _getStatusValueWidget('123'),
-                  _getStatusValueWidget('321'),
-                  _getStatusValueWidget('1523'),
-                ]
-              ),
-              TableRow(
-                  children: [
-                    _getStatusLabelWidget("Post"),
-                    _getStatusLabelWidget("Followers"),
-                    _getStatusLabelWidget("Following"),
-                  ]
-              ),
+              TableRow(children: [
+                _getStatusValueWidget('123'),
+                _getStatusValueWidget('321'),
+                _getStatusValueWidget('1523'),
+              ]),
+              TableRow(children: [
+                _getStatusLabelWidget("Post"),
+                _getStatusLabelWidget("Followers"),
+                _getStatusLabelWidget("Following"),
+              ]),
             ]),
           )
         ],
       );
 
   Widget _getStatusValueWidget(String value) => Center(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_s_gap),
-      child: FittedBox(fit: BoxFit.scaleDown,child: Text(value, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold),)),
-    ),
-  );
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: common_s_gap),
+          child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                value,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+        ),
+      );
 
   Widget _getStatusLabelWidget(String value) => Center(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_s_gap),
-      child: FittedBox(fit: BoxFit.scaleDown,child: Text(value, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w300),)),
-    ),
-  );
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: common_s_gap),
+          child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                value,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w300),
+              )),
+        ),
+      );
 
   Row _userNameIconButton() {
     return Row(

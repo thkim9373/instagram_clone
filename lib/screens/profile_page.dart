@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/sizes.dart';
 import 'package:instagram_clone/utils/profile_image_path.dart';
+import 'package:instagram_clone/widgets/profile_side_menu.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -56,15 +57,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
       ),
       transform: Matrix4.translationValues(_menuOpened ? size.width - menuWidth : size.width, 0, 0),
       child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            FlatButton(
-              child: Text("Hoony"),
-              onPressed: null,
-            )
-          ],
-        ),
+        child: ProfileSideMenu(),
       ),
     );
   }

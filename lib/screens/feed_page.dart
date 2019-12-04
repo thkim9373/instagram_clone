@@ -97,30 +97,30 @@ class FeedPage extends StatelessWidget {
         IconButton(
           icon: ImageIcon(
             AssetImage('assets/bookmark.png'),
+            color: Colors.black87,
           ),
-          color: Colors.black87,
           onPressed: null,
         ),
         IconButton(
           icon: ImageIcon(
             AssetImage('assets/comment.png'),
+            color: Colors.black87,
           ),
-          color: Colors.black87,
           onPressed: null,
         ),
         IconButton(
           icon: ImageIcon(
             AssetImage('assets/direct_message.png'),
+            color: Colors.black87,
           ),
-          color: Colors.black87,
           onPressed: null,
         ),
         Spacer(),
         IconButton(
           icon: ImageIcon(
             AssetImage('assets/heart_selected.png'),
+            color: Colors.redAccent,
           ),
-          color: Colors.redAccent,
           onPressed: null,
         ),
       ],

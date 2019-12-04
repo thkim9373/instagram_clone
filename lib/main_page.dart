@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/sizes.dart';
+import 'package:instagram_clone/screens/camera_page.dart';
 import 'package:instagram_clone/screens/feed_page.dart';
 import 'package:instagram_clone/screens/profile_page.dart';
 import 'package:instagram_clone/screens/search_page.dart';
@@ -26,7 +27,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    if(size == null) {
+    if (size == null) {
       size = MediaQuery.of(context).size;
     }
     return Scaffold(
@@ -61,8 +62,18 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 2) {
+      openCamera(context);
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  openCamera(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => CameraPage(),
+    ));
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/sizes.dart';
 import 'package:instagram_clone/utils/profile_image_path.dart';
 import 'package:instagram_clone/widgets/comment.dart';
+import 'package:instagram_clone/widgets/my_progress_indicator.dart';
 
 class FeedPage extends StatelessWidget {
   @override
@@ -157,17 +158,7 @@ class FeedPage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: 'https://picsum.photos/id/$index/200/200',
       placeholder: (context, url) {
-        return Container(
-          width: size.width,
-          height: size.width,
-          child: Center(
-            child: SizedBox(
-              width: 30,
-              height: 30,
-              child: Image.asset('assets/loading_img.gif'),
-            ),
-          ),
-        );
+        return new MyProgressIndicator();
       },
       imageBuilder: (BuildContext context, ImageProvider imageProvider) => AspectRatio(
         aspectRatio: 1 / 1,

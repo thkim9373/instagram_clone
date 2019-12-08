@@ -3,20 +3,21 @@ import 'package:instagram_clone/constants/sizes.dart';
 import 'package:instagram_clone/main_page.dart';
 import 'package:instagram_clone/utils/simple_snack_bar.dart';
 
-class SignInForm extends StatefulWidget {
+class SignUpForm extends StatefulWidget {
   @override
-  _SignInFormState createState() => _SignInFormState();
+  _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _SignUpFormState extends State<SignUpForm> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _inputPasswordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
+    _inputPasswordController.dispose();
     super.dispose();
   }
 
@@ -29,17 +30,17 @@ class _SignInFormState extends State<SignInForm> {
           padding: const EdgeInsets.all(common_gap),
           child: Form(
             key: _formKey,
-            child: ListView(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              mainAxisSize: MainAxisSize.max,
-//              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                SizedBox(
-                  height: 90,
+                Spacer(
+                  flex: 6,
                 ),
                 Image.asset('assets/insta_text_logo.png'),
-                SizedBox(
-                  height: 15,
+                Spacer(
+                  flex: 1,
                 ),
                 TextFormField(
                   controller: _emailController,
@@ -51,36 +52,38 @@ class _SignInFormState extends State<SignInForm> {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 15,
+                Spacer(
+                  flex: 1,
                 ),
                 TextFormField(
-                  controller: _passwordController,
+                  controller: _inputPasswordController,
                   decoration: getTextFieldDecoration("Password"),
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return "Please enter your password!";
+                      return "Please enter any password!";
                     }
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 15,
+                Spacer(
+                  flex: 1,
                 ),
-                Text(
-                  "Forgotten password?",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: Colors.blue[700],
-                    fontWeight: FontWeight.w600,
-                  ),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  decoration: getTextFieldDecoration("Confirm Password"),
+                  validator: (String value) {
+                    if (value.isEmpty || value != _inputPasswordController.text) {
+                      return "Password does not match!";
+                    }
+                    return null;
+                  },
                 ),
-                SizedBox(
-                  height: 25,
+                Spacer(
+                  flex: 2,
                 ),
                 FlatButton(
                   child: Text(
-                    "Login",
+                    "Sign Up",
                     style: TextStyle(color: Colors.white),
                   ),
                   color: Colors.blue,
@@ -95,8 +98,8 @@ class _SignInFormState extends State<SignInForm> {
                     }
                   },
                 ),
-                SizedBox(
-                  height: 30,
+                Spacer(
+                  flex: 2,
                 ),
                 Stack(
                   alignment: Alignment.center,
@@ -124,8 +127,8 @@ class _SignInFormState extends State<SignInForm> {
                     )
                   ],
                 ),
-                SizedBox(
-                  height: 30,
+                Spacer(
+                  flex: 2,
                 ),
                 FlatButton.icon(
                   textColor: Colors.blue,
@@ -137,11 +140,11 @@ class _SignInFormState extends State<SignInForm> {
                   ),
                   label: Text("Login with Facebook"),
                 ),
-                SizedBox(
-                  height: 30,
+                Spacer(
+                  flex: 2,
                 ),
-                SizedBox(
-                  height: 90,
+                Spacer(
+                  flex: 6,
                 ),
               ],
             ),

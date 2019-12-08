@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constants/sizes.dart';
+import 'package:instagram_clone/screens/auth_page.dart';
 
 class ProfileSideMenu extends StatelessWidget {
   @override
@@ -27,7 +28,10 @@ class ProfileSideMenu extends StatelessWidget {
             height: 1,
           ),
           FlatButton.icon(
-            onPressed: null,
+            onPressed: () {
+              final route = MaterialPageRoute(builder: (context) => AuthPage());
+              Navigator.pushReplacement(context, route);
+            },
             icon: Icon(Icons.exit_to_app),
             label: Text(
               "Log out",
